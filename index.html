@@ -49,14 +49,24 @@
                 <input type="text" name="email" id="email_address" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
-              <div class="col-span-6 sm:col-span-3">
+              <div class="col-span-6 sm:col-span-4">
                 <label for="room" class="block text-sm font-medium text-gray-700">Room</label>
                 <select id="room" name="room" autocomplete="room" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  <option value="Single-Bed">Single Bed - 30lv.</option>
-                  <option value="Bouble-bBed">Double Bed - 50lv.</option>
-                  <option value="With-Child">With Child - 60lv.</option>
-                  <option value="Double-Room">Double Room - 85lv.</option>
+                  <option value="Single-Bed - 30">Single Bed - 30lv.</option>
+                  <option value="Double-bed - 50">Double Bed - 50lv.</option>
+                  <option value="With Child - 60">With Child - 60lv.</option>
+                  <option value="Double Room - 85">Double Room - 85lv.</option>
                 </select>
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                <label for="email_address" class="block text-sm font-medium text-gray-700">From:</label>
+                <input type="date" min="1899-01-01" name="startingDate" id="startingDate" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                <label for="email_address" class="block text-sm font-medium text-gray-700">To:</label>
+                <input type="date" max="2045-01-01" name="endingDate" id="endingDate" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="col-span-6">
@@ -144,6 +154,8 @@
 			var email = $('input[name="email"]');
 			var room = $('select[name="room"]');
 			var people = $('input[name="people"]');
+      var startingDate = $('input[name="startingDate"]');
+      var endingDate = $('input[name="endingDate"]');
 
 			console.log(Object.values(room));
 
@@ -151,7 +163,7 @@
 			$.ajax({
 				url: 'php/booking.php',
 				type: 'POST',
-				data: {fname:fname.val(),lname:lname.val(),pin:pin.val(),email:email.val(),room:room.val(),people:people.val()},
+				data: {fname:fname.val(),lname:lname.val(),pin:pin.val(),email:email.val(),room:room.val(),people:people.val(),startingDate:startingDate.val(),endingDate:endingDate.val()},
 				dataType: 'json',
 				success: function(response){
           $('#book_form-content').css("display","none");
@@ -159,13 +171,55 @@
 					$('#name_info').html(response.fname + " " + response.lname);
           $('#pin_info').html(response.pin);
           $('#email_info').html(response.email);
-          $('#room_info').html(response.room);
+          $('#room_info').html(response.room + " lv");
           $('#people_info').html(response.people);
-          
+
           $('#applicant_info').css("display","block");
 				}
 			});
 		});
+
+    function minDate(){
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; 
+      var yyyy = today.getFullYear();
+
+        if(dd<10){
+            dd = '0' +dd
+        }
+
+        if(mm<10){
+            mm = '0' +mm
+        } 
+
+      today = yyyy+'-'+mm+'-'+dd;
+
+      return today;
+    }
+
+    function maxDate(){     
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; 
+      var yyyy = today.getFullYear()+1;
+
+        if(dd<10){
+            dd = '0' +dd
+        }
+
+        if(mm<10){
+            mm = '0' +mm
+        } 
+
+      today = yyyy+'-'+mm+'-'+dd;
+
+      return today;
+
+    }   
+    
+    document.getElementById("startingDate").setAttribute("min", minDate());
+    document.getElementById("endingDate").setAttribute("max", maxDate());
 	});
 </script>
 

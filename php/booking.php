@@ -5,7 +5,10 @@
 		'pin' => $_POST['pin'],
 		'email' => $_POST['email'],
 		'room' => $_POST['room'],
-		'people' => $_POST['people']
+		'people' => $_POST['people'],
+		'startingDate'=>$_POST['startingDate'],
+		'endingDate'=>$_POST['endingDate'],
+		'price' => ''
 
 	];
 
