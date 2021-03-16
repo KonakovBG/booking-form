@@ -22,7 +22,7 @@
 </div>
 
 
-<div class="mt-10 sm:mt-0 container mx-auto px-40">
+<div class="mt-10 sm:mt-0 container mx-auto px-40" id="book_form-content">
   <div class="md:grid md:grid-cols-3 md:gap-6">
     <div class="mt-5 md:mt-0 md:col-span-2">
       <form method="POST" id="booking_form">
@@ -52,10 +52,10 @@
               <div class="col-span-6 sm:col-span-3">
                 <label for="room" class="block text-sm font-medium text-gray-700">Room</label>
                 <select id="room" name="room" autocomplete="room" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  <option value="single-bed">Single Bed - 30lv.</option>
-                  <option value="double-bed">Double Bed - 50lv.</option>
-                  <option value="with-child">With Child - 60lv.</option>
-                  <option value="double-room">Double Room - 85lv.</option>
+                  <option value="Single-Bed">Single Bed - 30lv.</option>
+                  <option value="Bouble-bBed">Double Bed - 50lv.</option>
+                  <option value="With-Child">With Child - 60lv.</option>
+                  <option value="Double-Room">Double Room - 85lv.</option>
                 </select>
               </div>
 
@@ -76,6 +76,63 @@
   </div>
 </div>
 
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="bg-white shadow overflow-hidden sm:rounded-lg container px-40 hidden" id="applicant_info">
+  <div class="px-4 py-5 sm:px-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Applicant Information
+    </h3>
+    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+      Personal details and application.
+    </p>
+  </div>
+  <div class="border-t border-gray-200">
+    <dl>
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">
+          Full name
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="name_info">
+          
+        </dd>
+      </div>
+      <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">
+          PIN
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="pin_info">
+          
+        </dd>
+      </div>
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">
+          Email address
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="email_info">
+          
+        </dd>
+      </div>
+      <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">
+          Reserved rooms
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="room_info">
+          
+        </dd>
+      </div>
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">
+          Number of People
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="people_info">
+          
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+
 <script>
 	$(document).ready(function(){
 		$('#booking_form').on('submit',function(e){
@@ -85,7 +142,7 @@
 			var lname = $('input[name="lname"]');
 			var pin = $('input[name="pin"]');
 			var email = $('input[name="email"]');
-			var room = $('input[name="room"]');
+			var room = $('select[name="room"]');
 			var people = $('input[name="people"]');
 
 			console.log(Object.values(room));
@@ -97,7 +154,15 @@
 				data: {fname:fname.val(),lname:lname.val(),pin:pin.val(),email:email.val(),room:room.val(),people:people.val()},
 				dataType: 'json',
 				success: function(response){
-					window.location.href = 'php/booking.php';	
+          $('#book_form-content').css("display","none");
+
+					$('#name_info').html(response.fname + " " + response.lname);
+          $('#pin_info').html(response.pin);
+          $('#email_info').html(response.email);
+          $('#room_info').html(response.room);
+          $('#people_info').html(response.people);
+          
+          $('#applicant_info').css("display","block");
 				}
 			});
 		});
