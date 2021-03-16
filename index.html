@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Booking-form</title>
+	<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="hidden sm:block" aria-hidden="true">
+  <div class="py-5">
+    <div class="border-t border-gray-200"></div>
+  </div>
+</div>
+
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="lg:flex lg:items-center lg:justify-between container mx-auto px-40 mb-10">
+  <div class="flex-1 min-w-0">
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+     	Book-Form
+    </h2>
+  </div>
+</div>
+
+
+<div class="mt-10 sm:mt-0 container mx-auto px-40">
+  <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div class="mt-5 md:mt-0 md:col-span-2">
+      <form method="POST" id="booking_form">
+        <div class="shadow overflow-hidden sm:rounded-md">
+          <div class="px-4 py-5 bg-white sm:p-6">
+            <div class="grid grid-cols-6 gap-6">
+              <div class="col-span-6 sm:col-span-3">
+                <label for="fname" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input type="text" name="fname" id="first_name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                <label for="lname" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <input type="text" name="lname" id="last_name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>
+
+              <div class="col-span-6 sm:col-span-4">
+                <label for="pin" class="block text-sm font-medium text-gray-700">PIN</label>
+                <input type="text" name="pin" id="pin" autocomplete="pin" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>
+
+              <div class="col-span-6 sm:col-span-4">
+                <label for="email_address" class="block text-sm font-medium text-gray-700">Email Adress</label>
+                <input type="text" name="email" id="email_address" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                <label for="room" class="block text-sm font-medium text-gray-700">Room</label>
+                <select id="room" name="room" autocomplete="room" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <option value="single-bed">Single Bed - 30lv.</option>
+                  <option value="double-bed">Double Bed - 50lv.</option>
+                  <option value="with-child">With Child - 60lv.</option>
+                  <option value="double-room">Double Room - 85lv.</option>
+                </select>
+              </div>
+
+              <div class="col-span-6">
+                <label for="people" class="block text-sm font-medium text-gray-700">Number of People</label>
+                <input type="text" name="people" id="people" autocomplete="people" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>
+            </div>
+          </div>
+          <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('#booking_form').on('submit',function(e){
+			e.preventDefault();
+
+			var fname = $('input[name="fname"]');
+			var lname = $('input[name="lname"]');
+			var pin = $('input[name="pin"]');
+			var email = $('input[name="email"]');
+			var room = $('input[name="room"]');
+			var people = $('input[name="people"]');
+
+			console.log(Object.values(room));
+
+
+			$.ajax({
+				url: 'php/booking.php',
+				type: 'POST',
+				data: {fname:fname.val(),lname:lname.val(),pin:pin.val(),email:email.val(),room:room.val(),people:people.val()},
+				dataType: 'json',
+				success: function(response){
+					window.location.href = 'php/booking.php';	
+				}
+			});
+		});
+	});
+</script>
+
+</body>
+</html>
