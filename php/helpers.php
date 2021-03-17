@@ -115,7 +115,7 @@ function validate($input,$array_rules){
 			} else{
 				$error_array[] = "Number of people is not valid!";
 			}
-		
+		}
 	}
 
 	if(count($error_array) == 0){

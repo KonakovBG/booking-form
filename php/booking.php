@@ -26,8 +26,6 @@ $rules = [
 
 $ifError = validate($_POST,$rules);
 
-var_dump($ifError);
-
 if($ifError === true){
 	$responseArray['status'] = 'success';
 
