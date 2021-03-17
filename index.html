@@ -28,6 +28,11 @@
       <form method="POST" id="booking_form">
         <div class="shadow overflow-hidden sm:rounded-md">
           <div class="px-4 py-5 bg-white sm:p-6">
+             <div class="mb-10">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="errorMessage">
+
+                </h3>
+            </div>
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6 sm:col-span-3">
                 <label for="fname" class="block text-sm font-medium text-gray-700">First Name</label>
@@ -89,7 +94,7 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div class="bg-white shadow overflow-hidden sm:rounded-lg container px-40 hidden" id="applicant_info">
   <div class="px-4 py-5 sm:px-6">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
+    <h3 class="text-lg leading-6 font-medium text-gray-900" id="responseHeader">
       Applicant Information
     </h3>
     <p class="mt-1 max-w-2xl text-sm text-gray-500">
@@ -138,6 +143,15 @@
           
         </dd>
       </div>
+
+      <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <dt class="text-sm font-medium text-gray-500">
+          Price
+        </dt>
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="price_info">
+          
+        </dd>
+      </div>
     </dl>
   </div>
 </div>
@@ -166,15 +180,23 @@
 				data: {fname:fname.val(),lname:lname.val(),pin:pin.val(),email:email.val(),room:room.val(),people:people.val(),startingDate:startingDate.val(),endingDate:endingDate.val()},
 				dataType: 'json',
 				success: function(response){
-          $('#book_form-content').css("display","none");
+          if(response.status == 'success'){
+            $('#book_form-content').css("display","none");
 
-					$('#name_info').html(response.fname + " " + response.lname);
-          $('#pin_info').html(response.pin);
-          $('#email_info').html(response.email);
-          $('#room_info').html(response.room + " lv");
-          $('#people_info').html(response.people);
+            $('#name_info').html(response.data['fname'] + " " + response.data['lname']);
+            $('#pin_info').html(response.data['pin']);
+            $('#email_info').html(response.data['email']);
+            $('#room_info').html(response.data['room'] + " lv");
+            $('#people_info').html(response.data['people']);
+            $('#price_info').html(response.data['price'] + " lv");
 
-          $('#applicant_info').css("display","block");
+            $('#responseHeader').html(response.message).css("color","green");
+
+            $('#applicant_info').css("display","block");
+          } else{
+            $('#errorMessage').html(Object.values(response.errors)).css("color","red");
+          }
+
 				}
 			});
 		});
@@ -217,7 +239,7 @@
       return today;
 
     }   
-    
+
     document.getElementById("startingDate").setAttribute("min", minDate());
     document.getElementById("endingDate").setAttribute("max", maxDate());
 	});
