@@ -1,49 +1,45 @@
 $(document).ready(function(){
-    $('#booking_form').on('submit',function(e){
-      e.preventDefault();
 
-      var fname = $('input[name="fname"]');
-      var lname = $('input[name="lname"]');
-      var pin = $('input[name="pin"]');
-      var email = $('input[name="email"]');
-      var room = $('select[name="room"]');
-      var people = $('input[name="people"]');
-      var startingDate = $('input[name="startingDate"]');
-      var endingDate = $('input[name="endingDate"]');
+  // $( function() {
+  //   $( "#startingDate" ).datepicker();
+  // } );
 
-      $.ajax({
-        url: 'php/booking.php',
-        type: 'POST',
-        data: {fname:fname.val(),lname:lname.val(),pin:pin.val(),email:email.val(),room:room.val(),people:people.val(),startingDate:startingDate.val(),endingDate:endingDate.val()},
-        dataType: 'json',
-        success: function(response){
-          if(response.status == 'success'){
-            $('#book_form-content').css("display","none");
+  $('#booking_form').on('submit',function(e){
+    e.preventDefault();
 
-            $('#name_info').html(response.data['fname'] + " " + response.data['lname']);
+    $.ajax({
+      url: 'php/booking.php',
+      type: 'POST',
+      data: $(this).serialize(),
+      dataType: 'json',
+      success: function(response){
+        if(response.status == 'success'){
+          $('#book_form-content').css("display","none");
 
-            $('#pin_info').html(response.data['pin']);
+          $('#name_info').html(response.data['fname'] + " " + response.data['lname']);
 
-            $('#email_info').html(response.data['email']);
+          $('#pin_info').html(response.data['pin']);
 
-            $('#room_info').html(response.data['room'] + " lv");
+          $('#email_info').html(response.data['email']);
 
-            $('#people_info').html(response.data['people']);
+          $('#room_info').html(response.data['room'] + " lv");
 
-            $('#time_info').html(response.data['startingDate'] + " - " + [response
-              .data['endingDate']]);
+          $('#people_info').html(response.data['people']);
 
-            $('#price_info').html(response.data['price'] + " lv");
+          $('#time_info').html(response.data['startingDate'] + " - " + [response
+            .data['endingDate']]);
 
-            $('#responseHeader').html(response.message).css("color","green");
+          $('#price_info').html(response.data['price'] + " lv");
 
-            $('#applicant_info').css("display","block");
-          } else{
-            $('#errorMessage').html(Object.values(response.errors)).css("color","red");
-          }
+          $('#responseHeader').html(response.message).css('color','green');
+
+          $('#applicant_info').css('display','block');
+        } else{
+          $('#errorMessage').html(Object.values(response.errors)).css('color','red');
         }
-      });
+      }
     });
+  });
 
   function minDate(){
     var today = new Date();
@@ -89,7 +85,7 @@ $(document).ready(function(){
     return today;
   }   
 
-  document.getElementById("startingDate").setAttribute("min", minDate());
+  document.getElementById('startingDate').setAttribute('min', minDate());
 
-  document.getElementById("endingDate").setAttribute("max", maxDate());
+  document.getElementById('endingDate').setAttribute('max', maxDate());
 });

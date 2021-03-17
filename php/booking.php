@@ -1,16 +1,8 @@
 <?php 
-$data = [
-	'fname' => $_POST['fname'],
-	'lname' => $_POST['lname'],
-	'pin' => $_POST['pin'],
-	'email' => $_POST['email'],
-	'room' => $_POST['room'],
-	'people' => $_POST['people'],
-	'startingDate'=> $_POST['startingDate'],
-	'endingDate'=> $_POST['endingDate'],
-	'price' => calculatePrice()
 
-];
+$data = $_POST;
+
+$data['price'] = calculatePrice();
 
 function calculatePrice(){
 	$startingDate = date_create($_POST['startingDate']);
@@ -28,7 +20,7 @@ function calculatePrice(){
 	return $finalPrice;
 }
 
-function test_input($data){
+function validate_input($data){
 	$data = trim($data);
 
 	$data = stripcslashes($data);
@@ -41,7 +33,7 @@ $responseArray = [
 	'status' => '',
 	'message' => '',
 	'errors' => [] ,
-		'data' => $data
+	'data' => $data
 ];	
 
 $rules = [
@@ -64,7 +56,7 @@ foreach ($_POST as $name => $value) {
 
 			$responseArray['errors'][$name] = "Name is not valid! ";
 	} else {			
-			test_input($value);
+			validate_input($value);
 		}
 	} else if ($rule == 'email') {
 		if (empty($value) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
@@ -72,7 +64,7 @@ foreach ($_POST as $name => $value) {
 
 			$responseArray['errors'][$name] = "Email is not valid! ";
 		} else {
-			test_input($value);
+			validate_input($value);
 		}
 	} else if($rule == 'people'){
 		if (empty($value) || !is_numeric($value)){
@@ -104,7 +96,7 @@ foreach ($_POST as $name => $value) {
 				$responseArray['errors'][$name] = "Number of people is not valid! ";
 			}
 		} else {
-			test_input($value);
+			validate_input($value);
 		}
 	} else if($rule == 'pin'){
 		if (empty($value) || !is_numeric($value) || strlen($value) == 9){
@@ -112,7 +104,7 @@ foreach ($_POST as $name => $value) {
 
 			$responseArray['errors'][$name] = "PIN is not valid! ";
 		} else{
-			test_input($value);
+			validate_input($value);
 		}
 	}		
 }
