@@ -4,6 +4,7 @@
 	<title>Booking-form</title>
 	<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="js/script.js"></script>
 </head>
 <body>
 <div class="hidden sm:block" aria-hidden="true">
@@ -36,46 +37,57 @@
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6 sm:col-span-3">
                 <label for="fname" class="block text-sm font-medium text-gray-700">First Name</label>
+                
                 <input type="text" name="fname" id="first_name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="col-span-6 sm:col-span-3">
                 <label for="lname" class="block text-sm font-medium text-gray-700">Last Name</label>
+
                 <input type="text" name="lname" id="last_name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="col-span-6 sm:col-span-4">
                 <label for="pin" class="block text-sm font-medium text-gray-700">PIN</label>
+
                 <input type="text" name="pin" id="pin" autocomplete="pin" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="col-span-6 sm:col-span-4">
                 <label for="email_address" class="block text-sm font-medium text-gray-700">Email Adress</label>
+
                 <input type="text" name="email" id="email_address" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="col-span-6 sm:col-span-4">
                 <label for="room" class="block text-sm font-medium text-gray-700">Room</label>
+
                 <select id="room" name="room" autocomplete="room" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                   <option value="Single-Bed - 30">Single Bed - 30lv.</option>
+
                   <option value="Double-bed - 50">Double Bed - 50lv.</option>
+
                   <option value="With Child - 60">With Child - 60lv.</option>
+
                   <option value="Double Room - 85">Double Room - 85lv.</option>
                 </select>
               </div>
 
               <div class="col-span-6 sm:col-span-3">
                 <label for="email_address" class="block text-sm font-medium text-gray-700">From:</label>
+
                 <input type="date" min="1899-01-01" name="startingDate" id="startingDate" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="col-span-6 sm:col-span-3">
                 <label for="email_address" class="block text-sm font-medium text-gray-700">To:</label>
+
                 <input type="date" max="2045-01-01" name="endingDate" id="endingDate" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
 
               <div class="col-span-6">
                 <label for="people" class="block text-sm font-medium text-gray-700">Number of People</label>
+
                 <input type="text" name="people" id="people" autocomplete="people" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div>
             </div>
@@ -108,7 +120,6 @@
           Full name
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="name_info">
-          
         </dd>
       </div>
       <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -116,7 +127,6 @@
           PIN
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="pin_info">
-          
         </dd>
       </div>
       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -124,135 +134,38 @@
           Email address
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="email_info">
-          
         </dd>
       </div>
       <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">
           Reserved rooms
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="room_info">
-          
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="room_info">          
         </dd>
       </div>
       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">
           Number of People
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="people_info">
-          
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="people_info">         
         </dd>
       </div>
       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">
           Period of Time
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="time_info">
-          
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="time_info">         
         </dd>
       </div>
       <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
         <dt class="text-sm font-medium text-gray-500">
           Price
         </dt>
-        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="price_info">
-          
+        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" id="price_info">         
         </dd>
       </div>
     </dl>
   </div>
 </div>
-
-
-<script>
-	$(document).ready(function(){
-		$('#booking_form').on('submit',function(e){
-			e.preventDefault();
-
-			var fname = $('input[name="fname"]');
-			var lname = $('input[name="lname"]');
-			var pin = $('input[name="pin"]');
-			var email = $('input[name="email"]');
-			var room = $('select[name="room"]');
-			var people = $('input[name="people"]');
-      var startingDate = $('input[name="startingDate"]');
-      var endingDate = $('input[name="endingDate"]');
-
-			console.log(Object.values(room));
-
-
-			$.ajax({
-				url: 'php/booking.php',
-				type: 'POST',
-				data: {fname:fname.val(),lname:lname.val(),pin:pin.val(),email:email.val(),room:room.val(),people:people.val(),startingDate:startingDate.val(),endingDate:endingDate.val()},
-				dataType: 'json',
-				success: function(response){
-          if(response.status == 'success'){
-            $('#book_form-content').css("display","none");
-
-            $('#name_info').html(response.data['fname'] + " " + response.data['lname']);
-            $('#pin_info').html(response.data['pin']);
-            $('#email_info').html(response.data['email']);
-            $('#room_info').html(response.data['room'] + " lv");
-            $('#people_info').html(response.data['people']);
-            $('#time_info').html(response.data['startingDate'] + " - " + [response
-              .data['endingDate']]);
-            $('#price_info').html(response.data['price'] + " lv");
-
-            $('#responseHeader').html(response.message).css("color","green");
-
-            $('#applicant_info').css("display","block");
-          } else{
-            $('#errorMessage').html(Object.values(response.errors)).css("color","red");
-          }
-
-				}
-			});
-		});
-
-    function minDate(){
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1; 
-      var yyyy = today.getFullYear();
-
-        if(dd<10){
-            dd = '0' +dd
-        }
-
-        if(mm<10){
-            mm = '0' +mm
-        } 
-
-      today = yyyy+'-'+mm+'-'+dd;
-
-      return today;
-    }
-
-    function maxDate(){     
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1; 
-      var yyyy = today.getFullYear()+1;
-
-        if(dd<10){
-            dd = '0' +dd
-        }
-
-        if(mm<10){
-            mm = '0' +mm
-        } 
-
-      today = yyyy+'-'+mm+'-'+dd;
-
-      return today;
-
-    }   
-
-    document.getElementById("startingDate").setAttribute("min", minDate());
-    document.getElementById("endingDate").setAttribute("max", maxDate());
-	});
-</script>
-
 </body>
 </html>
