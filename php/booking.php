@@ -24,13 +24,22 @@ $rules = [
 	'endingDate' => 'required'
 ];
 
-if(validate($_POST,$rules) == true){
+$ifError = validate($_POST,$rules);
+
+var_dump($ifError);
+
+if($ifError === true){
 	$responseArray['status'] = 'success';
 
 	$responseArray['message'] = 'You successfully made a reservation!';
 
 	echo json_encode($responseArray);
+	
+	
 } else{
+	$responseArray['status'] = 'error';
+
+	$responseArray['errors'] = $ifError;
 
 	echo json_encode($responseArray);
 }	

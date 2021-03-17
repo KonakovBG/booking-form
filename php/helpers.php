@@ -16,6 +16,65 @@ function calculatePrice(){
 	return $finalPrice;
 }
 
+function validate_name($value){
+	if (empty($value)){
+		return false;
+	} else {			
+		validate_input($value);
+
+		return true;		
+	}	
+}	
+
+function validate_email($value){
+	if (empty($value) || !filter_var($input['email'], FILTER_VALIDATE_EMAIL)){
+		return false;
+	} else {
+		validate_input($value);
+
+		return true;
+	}
+}
+
+		
+function validate_people($value){
+	if (empty($value) || !is_numeric($value)){		
+		return false;
+	} else if($input['room'] === 'Single-Bed - 30'){
+		if($value != '1'){
+			return false;
+		}
+	} else if($input['room'] === 'Double-bed - 50'){
+		if($value != '2'){
+			return false;
+		}
+	} else if($input['room'] === 'With Child - 60'){
+		if($value != '2' || $value != '3' ){
+			return false;
+		}
+	} else if($input['room'] === 'Double Room - 85'){
+		if($value != '4'){
+			return false;
+		}
+	} else {
+		validate_input($value);
+
+		return true;
+	}
+} 
+
+
+function validate_pin($value){	
+	if (empty($value) || !is_numeric($value) || strlen($value) == 9){
+		return false;
+	} else{
+		validate_input($value);
+
+		return true;
+	}
+}
+
+
 function validate_input($data){
 	$data = trim($data);
 
@@ -26,85 +85,46 @@ function validate_input($data){
 	return $data;
 }
 
-function validate($input,$array_rules) {
+function validate($input,$array_rules){
+	$error_array = [];
+		
 	foreach ($input as $name => $value) {
 		$rule = $array_rules[$name];
 
 		if($rule == 'required'){
-			if (empty($value)){
-				$responseArray['status'] = 'error';
+			if(validate_name($value)){
 
-				$responseArray['errors'][$name] = "Name is not valid! ";
-
-				return false;
-		} else {			
-				validate_input($value);
+			} else{
+				$error_array[] = "Name is not valid!";
 			}
-		} else if ($rule == 'email'){
-			if (empty($value) || !filter_var($input['email'], FILTER_VALIDATE_EMAIL)){
-				$responseArray['status'] = 'error';
+		} else if($rule == 'email'){
+			if(validate_name($value)){
 
-				$responseArray['errors'][$name] = "Email is not valid! ";
-
-				return false;
-			} else {
-				validate_input($value);
-			}
-		} else if($rule == 'people'){
-			if (empty($value) || !is_numeric($value)){
-				$responseArray['status'] = 'error';
-
-				$responseArray['errors'][$name] = " Number of people is not valid! ";
-
-				return false;			
-			} else if($input['room'] === 'Single-Bed - 30'){
-				if($value != '1'){
-					$responseArray['status'] = 'error';
-
-					$responseArray['errors'][$name] = "Number of people is not valid! ";
-
-					return false;
-				}
-			} else if($input['room'] === 'Double-bed - 50'){
-				if($value != '2'){
-					$responseArray['status'] = 'error';
-
-					$responseArray['errors'][$name] = "Number of people is not valid! ";
-
-					return false;
-				}
-			} else if($input['room'] === 'With Child - 60'){
-				if($value != '2' || $value != '3' ){
-					$responseArray['status'] = 'error';
-
-					$responseArray['errors'][$name] = "Number of people is not valid! ";
-
-					return false;
-				}
-			} else if($input['room'] === 'Double Room - 85'){
-				if($value != '4'){
-					$responseArray['status'] = 'error';
-
-					$responseArray['errors'][$name] = "Number of people is not valid! ";
-
-					return false;
-				}
-			} else {
-				validate_input($value);
+			} else{
+				$error_array[] = "email is not valid!";
 			}
 		} else if($rule == 'pin'){
-			if (empty($value) || !is_numeric($value) || strlen($value) == 9){
-				$responseArray['status'] = 'error';
+			if(validate_pin($value)) {
 
-				$responseArray['errors'][$name] = "PIN is not valid! ";
-
-				return false;
 			} else{
-				validate_input($value);
+				$error_array[] = "PIN is not valid!";
 			}
-		}		
+		} else if($rule == 'people'){
+			if(validate_people($value)){
+
+			} else{
+				$error_array[] = "Number of people is not valid!";
+			}
+		
 	}
 
-	return true;
+	if(count($error_array) == 0){
+		return true;
+	} else{
+		return $error_array;
+	}	
 }
+
+
+
 
