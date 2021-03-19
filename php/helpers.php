@@ -16,7 +16,7 @@ function calculatePrice($from, $to, $roomType){
 	return $finalPrice;
 }
 
-function validate_name($value){
+function validate_required($value){
 	if (empty($value)){
 		return false;
 	} else {			
@@ -27,7 +27,7 @@ function validate_name($value){
 }	
 
 function validate_email($value){
-	if (empty($value) || !filter_var($input['email'], FILTER_VALIDATE_EMAIL)){
+	if (empty($value) || filter_var($input['email'], FILTER_VALIDATE_EMAIL)){
 		return false;
 	} else {
 		$result = validate_input($value);
@@ -49,16 +49,17 @@ function validate_people($value, $roomType){
 			return false;
 		}
 	} else if ($roomType === 'With Child - 60'){
-		if ($value != '2' || $value != '3' ){
+		if ($value != '2' && $value != '3' ){
 			return false;
 		}
 	} else if ($roomType === 'Double Room - 85'){
 		if ($value != '4'){
 			return false;
 		}
-	} else {
-		return true;
 	}
+	
+	return true;
+
 } 
 
 function validate_pin($value){	
@@ -86,26 +87,20 @@ function validate($input,$array_rules){
 	$error_array = [];
 		
 	foreach ($input as $name => $value) {
-		$rule = $array_rules[$name];		
+		$rule = $array_rules[$name];
 
-		if($rule === 'required'){
-			if(!validate_name($value)){
-				$error_array[] = "Name is not valid!";
-			} 
-		} else if($rule === 'email'){
-			if(!validate_name($value)){
-				$error_array[] = "Email is not valid!";
-			}
-		} else if($rule === 'pin'){
-			if(!validate_pin($value)) {
-				$error_array[] = "PIN is not valid!";
-			}
-		} else if($rule === 'people'){
+		$validationCallback = 'validate_' . $rule;
+		
+		if($validationCallback === 'validate_people'){
 			$roomType = $input['room'];
 
-			if(!validate_people($value, $roomType)){
-				$error_array[] = "Number of people is not valid!";				
-			} 
+			if($validationCallback($value,$roomType) === false){
+				$error_array[] = $name . ' is not valid!';
+			}			
+		} else {
+			if($validationCallback($value) === false){
+				$error_array[] = $name . ' is not valid!';
+			}
 		}
 	}
 

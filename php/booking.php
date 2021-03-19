@@ -2,8 +2,6 @@
 
 include 'helpers.php';
 
-$_POST['price'] = calculatePrice($_POST['startingDate'],$_POST['endingDate'],$_POST['room']);
-
 $responseArray = [
 	'status' => '',
 	'message' => '',
@@ -17,12 +15,14 @@ $rules = [
 	'pin' => 'pin',
 	'email' => 'email',
 	'room' => 'required',
-	'people' => 'people',
 	'startingDate' => 'required',
-	'endingDate' => 'required'
+	'endingDate' => 'required',
+	'people' => 'people'
 ];	
 
 $isSuccessfull = validate($_POST,$rules);
+
+$_POST['price'] = calculatePrice($_POST['startingDate'],$_POST['endingDate'],$_POST['room']);
 
 if($isSuccessfull === true){
 	$responseArray['status'] = 'success';
