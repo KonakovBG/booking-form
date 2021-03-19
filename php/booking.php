@@ -2,16 +2,14 @@
 
 include 'helpers.php';
 
-$data = $_POST;
-
-$data['price'] = calculatePrice();
+$_POST['price'] = calculatePrice($_POST['startingDate'],$_POST['endingDate'],$_POST['room']);
 
 $responseArray = [
 	'status' => '',
 	'message' => '',
 	'errors' => [],
-	'data' => $data
-];	
+	'data' => $_POST
+];
 
 $rules = [
 	'fname' => 'required',
@@ -22,11 +20,11 @@ $rules = [
 	'people' => 'people',
 	'startingDate' => 'required',
 	'endingDate' => 'required'
-];
+];	
 
-$ifError = validate($_POST,$rules);
+$isSuccessfull = validate($_POST,$rules);
 
-if($ifError === true){
+if($isSuccessfull === true){
 	$responseArray['status'] = 'success';
 
 	$responseArray['message'] = 'You successfully made a reservation!';
@@ -37,7 +35,7 @@ if($ifError === true){
 } else{
 	$responseArray['status'] = 'error';
 
-	$responseArray['errors'] = $ifError;
+	$responseArray['errors'] = $isSuccessfull;
 
 	echo json_encode($responseArray);
 }	
