@@ -22,7 +22,9 @@ $rules = [
 
 $isSuccessfull = validate($_POST,$rules);
 
-$_POST['price'] = calculatePrice($_POST['startingDate'],$_POST['endingDate'],$_POST['room']);
+$finalPrice = calculatePrice($_POST['startingDate'],$_POST['endingDate'],$_POST['room']);
+
+$responseArray['data']['price'] = $finalPrice;
 
 if($isSuccessfull === true){
 	$responseArray['status'] = 'success';

@@ -1,11 +1,100 @@
 $(document).ready(function(){
 
-  // $( function() {
-  //   $( "#startingDate" ).datepicker();
-  // } );
+  var rules = { 
+    fname: 'required',
+    lname:'required',
+    pin:'pin',
+    email:'required',
+    room:'required',
+    startingDate:'required',
+    endingDate:'required',
+    people:'people'    
+  };
+
+  function validate_required(value){
+    if (value === ''){
+      return false;
+    } 
+}
+
+  function validate_pin(value){  
+  if (value === '' || isNaN(value) || value.length != 10){
+    return false;
+  }
+}
+
+function validate_people(value, roomType){
+  if (empty(value) || isNaN(value)){
+    return false;   
+  } else if (roomType === 'Single-Bed - 30'){
+    if(value != '1'){
+      return false;
+    }
+  } else if (roomType === 'Double-bed - 50'){
+    if(value != '2'){
+      return false;
+    }
+  } else if (roomType === 'With Child - 60'){
+    if (value != '2' && value != '3' ){
+      return false;
+    }
+  } else if (roomType === 'Double Room - 85'){
+    if (value != '4'){
+      return false;
+    }
+  }
+  
+  return true;
+
+}
 
   $('#booking_form').on('submit',function(e){
     e.preventDefault();
+
+    
+    var formData = $('#booking_form').serializeArray();
+
+    var roomString = formData[4]['value'];
+
+    var roomType = roomString.split(' ');
+
+    for(field in formData){
+      var rule = rules[formData[field]['name']];
+
+      var value = formData[field]['value']; 
+
+      var validationCallback = 'validate_' + rule; 
+
+      console.log(validationCallback);   
+
+      if(validationCallback === 'validate_required'){
+        if (validationCallback(value) === false){
+          $('input[name=' + formData[field]['name'] + ']').css('border','solid 1px red');
+
+          $('#result_' + formData[field]['name']).html(formData[field]['name'] + " is not valid!").css('color','red');
+
+          return false;
+        } 
+      } else if(validationCallback === 'validate_pin'){
+          if(validationCallback(value) === false){
+            $('input[name=' + formData[field]['name'] + ']').css('border','solid 1px red');
+
+            $('#result_' + formData[field]['name']).html(formData[field]['name'] + " is not valid!").css('color','red');
+            
+            return false;
+          }   
+        } else if(validationCallback === 'people'){
+          if(validationCallback(value,roomType[0])){
+            $('input[name=' + formData[field]['name'] + ']').css('border','solid 1px red');
+
+            $('#result_' + formData[field]['name']).html(formData[field]['name'] + " is not valid!").css('color','red');
+
+            return false;
+          }     
+        }        
+    }   
+
+
 
     $.ajax({
       url: 'php/booking.php',
