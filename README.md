@@ -1,2 +1,2 @@
 # booking-form
-![Optional Text](../master/screenshot.png)
+![Screenshot](screenshot.png)
