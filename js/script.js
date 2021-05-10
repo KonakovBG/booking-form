@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-  var rules = { 
+  const rules = { 
     fname: 'required',
     lname:'required',
     pin:'pin',
@@ -11,47 +11,51 @@ $(document).ready(function(){
     people:'people'    
   };
 
-  function validate_required(value){
-    if (value === ''){
-      return false;
-    } 
-}
+  const errorMessages = {
+  'required': 'The field is required!',
+  'people': 'Invalid number of people!',
+  'pin': 'Invalid Phone number!'
+};
 
-  function validate_pin(value){  
-  if (value === '' || isNaN(value) || value.length != 10){
-    return false;
+  const validator = {
+    validate_required: function validate_required(value){
+      if (value === ''){
+        return false;
+      }
+      return true; 
+  },
+  validate_pin: function validate_pin(value){  
+    if (value === '' || isNaN(value) || value.length != 10){
+      return false;
+    }
+    return true;
+  },
+  validate_people: function validate_people(value, roomType){
+    if (value === '' || isNaN(value)){
+      return false;   
+    } else if (roomType === 'Single-Bed'){
+      if(value != '1'){
+        return false; 
+      }
+    } else if (roomType === 'Double-Bed'){
+      if(value != '2'){
+        return false; 
+      }
+    } else if (roomType === 'With Child'){
+      if (value != '2' && value != '3' ){
+        return false; 
+      }
+    } else if (roomType === 'Double Room'){
+      if (value != '4'){
+        return false; 
+      }
+    } return true;   
   }
-}
-
-function validate_people(value, roomType){
-  if (empty(value) || isNaN(value)){
-    return false;   
-  } else if (roomType === 'Single-Bed - 30'){
-    if(value != '1'){
-      return false;
-    }
-  } else if (roomType === 'Double-bed - 50'){
-    if(value != '2'){
-      return false;
-    }
-  } else if (roomType === 'With Child - 60'){
-    if (value != '2' && value != '3' ){
-      return false;
-    }
-  } else if (roomType === 'Double Room - 85'){
-    if (value != '4'){
-      return false;
-    }
-  }
-  
-  return true;
-
-}
+};
 
   $('#booking_form').on('submit',function(e){
     e.preventDefault();
 
-    
     var formData = $('#booking_form').serializeArray();
 
     var roomString = formData[4]['value'];
@@ -65,35 +69,18 @@ function validate_people(value, roomType){
 
       var validationCallback = 'validate_' + rule; 
 
-      console.log(validationCallback);   
+      const result = validator[validationCallback](value);
+      
+      if(validationCallback === 'validate_people'){
+        const result = validator[validationCallback](value,roomType[0]);               
+      }
 
-      if(validationCallback === 'validate_required'){
-        if (validationCallback(value) === false){
-          $('input[name=' + formData[field]['name'] + ']').css('border','solid 1px red');
+      if(result === false){
+        $('#result_' + formData[field]['name']).html(errorMessages[rule]).css('color','red'); 
 
-          $('#result_' + formData[field]['name']).html(formData[field]['name'] + " is not valid!").css('color','red');
-
-          return false;
-        } 
-      } else if(validationCallback === 'validate_pin'){
-          if(validationCallback(value) === false){
-            $('input[name=' + formData[field]['name'] + ']').css('border','solid 1px red');
-
-            $('#result_' + formData[field]['name']).html(formData[field]['name'] + " is not valid!").css('color','red');
-            
-            return false;
-          }   
-        } else if(validationCallback === 'people'){
-          if(validationCallback(value,roomType[0])){
-            $('input[name=' + formData[field]['name'] + ']').css('border','solid 1px red');
-
-            $('#result_' + formData[field]['name']).html(formData[field]['name'] + " is not valid!").css('color','red');
-
-            return false;
-          }     
-        }        
-    }   
-
+        return false;
+      }  
+    }
 
 
     $.ajax({
